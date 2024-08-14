@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <script src="./Script.js"></script>
+    <script>
+      function Validate() {
+        let Fullname = document.getElementById("Fullname").value;
+        let Email = document.getElementById("Email").value;
+        let Password = document.getElementById("Password").value;
+        let confirmPassword = document.getElementById("confirmPassword").value;
+        if (Fullname == "") {
+          alert("Please enter Full Name");
+          return false;
+        } else if (Email == "") {
+          alert("Please enter email id");
+          return false;
+        } else if (Password == "" && Password.length > 6) {
+          alert("Please enter password and Length should be grater than 6");
+          return false;
+        } else if (confirmPassword == "" && Password.length > 6) {
+          alert(
+            "Please enter confirm Password and Length should be grater than 6"
+          );
+          return false;
+        }
+        if (Password != confirmPassword) {
+          alert("Passwoard and confirm password not match");
+          return false;
+        }
+        var validRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (Email.match(validRegex)) {
+          userdata = JSON.parse(localStorage.getItem("users"));
+          for (var p in userdata) {
+            if (Email == userdata[p].Email) {
+              alert("User All ready exist in");
+              return false;
+            }
+          }
+          pushuser(Fullname, Email, Password);
+        } else {
+          alert("Email is not correct formate");
+          return false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1 style="text-align: center">Register</h1>
+    <form
+      action="./RegisterSuccess.html"
+      method="get"
+      onsubmit="return Validate()"
+    >
+      Full Name : <input type="text" id="Fullname" /> Email :<input
+        type="email"
+        id="Email"
+      />
+      password : <input type="password" id="Password" /> confirm Password :
+      <input type="password" id="confirmPassword" />
+      <button>Register</button>
+    </form>
+  </body>
+</html>

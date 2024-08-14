@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Edit User</title>
+
+    <script src="./Script.js"></script>
+    <script>
+      function Validate() {
+        debugger;
+        let Fullname = document.getElementById("Fullname").value;
+        let Email = document.getElementById("Email").value;
+        let id = document.getElementById("Id").value;
+        console.log("Fullname of validate", Fullname);
+        if (Fullname == "") {
+          alert("Please enter Full Name");
+          return false;
+        } else if (Email == "") {
+          alert("Please enter email id");
+          return false;
+        }
+        userdata = JSON.parse(localStorage.getItem("users"));
+        for (var p in userdata) {
+          if (Email == userdata[p].Email && id != userdata[p].id) {
+            alert("User All ready exist in");
+            return false;
+          }
+        }
+        for (var p in userdata) {
+          if (id == userdata[p].id) {
+            userdata[p].Fullname = Fullname;
+            userdata[p].Email = Email;
+            localStorage.setItem("users", JSON.stringify(userdata));
+            return true;
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="CSS/Main.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+      <script src="js/Common.js"></script>
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <h1 style="text-align: center">Edit User</h1>
+    <form action="./Userlist.html" method="get" onsubmit="return Validate()">
+   
+      Full Name : <input type="text" id="Fullname" value="" /> Email :<input
+        type="email"
+        id="Email"
+      />
+      <input type="hidden" id="Id" />
+
+      <button>Update</button>
+    </form>
+    <script>
+      GetData();
+      function GetData() {
+        let Fullname, Email, id;
+        const searchParams = new URLSearchParams(window.location.search);
+        if (searchParams.has("UserEmail") !== true) {
+          alert("User Paramete is not passed.");
+          return false;
+        }
+        let users = JSON.parse(localStorage.getItem("users"));
+        for (let i = 0; i < users.length; i++) {
+          if (users[i].Email == searchParams.get("UserEmail")) {
+            id = users[i].id;
+            Fullname = users[i].Fullname;
+            Email = users[i].Email;
+          }
+        }
+        document.getElementById("Fullname").value = Fullname;
+        document.getElementById("Email").value = Email;
+        document.getElementById("Id").value = id;
+        if (Email == localStorage.getItem("UserEmail")) {
+          document.getElementById("Email").disabled = true;
+        }
+      }
+    </script>
+  </body>
+</html>

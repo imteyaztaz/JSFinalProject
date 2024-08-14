@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login page</title>
+    <link rel="stylesheet" href="CSS/Main.css">
+    <script>
+      function Validate() {
+        let Email = document.getElementById("Email").value;
+        let Password = document.getElementById("Password").value;
+        let userdata = localStorage.getItem("users")
+          ? JSON.parse(localStorage.getItem("users"))
+          : [];
+        if (userdata.length <= 0) {
+          alert("User Not exist in !!");
+          return false;
+        }
+
+        for (var p in userdata) {
+          if (Email == userdata[p].Email && Password == userdata[p].Password) {
+            localStorage.setItem("UserEmail", userdata[p].Email);
+            return true;
+          }
+          alert("User Not exist in !!");
+          return false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form
+      action="./LoginSuccess.html"
+      method="get"
+      onsubmit="return Validate()"
+    >
+      Email :<input type="email" id="Email" /> password :
+      <input type="password" id="Password" />
+      <button>Login</button>
+    </form>
+  </body>
+</html>
